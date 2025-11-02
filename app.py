@@ -5,9 +5,9 @@ import torch.nn.functional as F
 from torchvision import transforms
 from PIL import Image
 
-# --------------------------
+
 # Define your CNN architecture
-# --------------------------
+
 class FraudCNN(nn.Module):
     def __init__(self):
         super(FraudCNN, self).__init__()
@@ -27,26 +27,19 @@ class FraudCNN(nn.Module):
         x = self.fc(x)
         return x
 
-
-# --------------------------
 # Load Model
-# --------------------------
 model = FraudCNN()
 model.load_state_dict(torch.load(r"C:\Users\KIIT\Downloads\Model\cnn_fraud_model.pth", map_location=torch.device("cpu")))
 model.eval()
 
-
-# --------------------------
 # Image Transform
-# --------------------------
 transform = transforms.Compose([
     transforms.Resize((128, 128)),
     transforms.ToTensor()
 ])
 
-# --------------------------
 # Streamlit UI
-# --------------------------
+
 st.title("🧠 Image Fraud Detection (CNN)")
 st.write("Upload an image to check if it's **FAKE** or **REAL**.")
 
@@ -66,4 +59,5 @@ if uploaded_file is not None:
         confidence = probs[0][pred_class].item()
 
     labels = ["REAL", "FAKE"]
-    st.markdown(f"### ✅ Prediction: **{labels[pred_class]}** ({confidence:.2f} confidence)")
+    st.markdown(f"### Prediction: **{labels[pred_class]}** ({confidence:.2f} score)")
+
